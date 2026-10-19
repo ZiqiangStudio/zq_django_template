@@ -1,40 +1,71 @@
 <div align="center">
 
-# zq-django-template
-**自强 Studio Django 模板**
+# 自强 Studio Django 后端工程模板
 
-<!-- markdownlint-disable-next-line MD036 -->
-</div>
+_✨ 武汉大学自强网络综合技术社团 · 后端标准模板 ✨_
 
 <p align="center">
-  <a href="https://zq-django-util.readthedocs.io/en/latest/?badge=latest">
-    <img src="https://readthedocs.org/projects/zq-django-template/badge/?version=latest" alt="Documentation Status" >
-  </a>
-  <a href="https://pypi.org/project/zq-django-template/">
-    <img src="https://img.shields.io/pypi/v/zq-django-template" alt="pypi">
+  <img src="https://img.shields.io/badge/Python-3.12-blue" alt="python">
+  <img src="https://img.shields.io/badge/Django-4.2%2B-blue" alt="django">
+  <img src="https://img.shields.io/badge/Linter-Ruff-blue" alt="ruff">
+  <img src="https://img.shields.io/badge/Package%20Manager-uv-blue" alt="uv">
+  <br />
+  <a href="https://github.com/ZiqiangStudio/zq_django_template/actions/workflows/cicd.yml">
+    <img src="https://github.com/ZiqiangStudio/zq_django_template/actions/workflows/cicd.yml/badge.svg?branch=main" alt="CI/CD">
   </a>
 </p>
-<!-- markdownlint-enable MD033 -->
+</div>
 
-[English Version](README_EN.md)
+## 🚀 快速建项
 
-## 简介
+本项目为 **GitHub Template 仓库**：
+1. 点击 GitHub 页面右上角的 **[Use this template]** -> **[Create a new repository]**。
+2. 输入您的新项目仓库名（如 `zq_score_backend`），完成创建。
+3. 克隆新仓库到本地即可开始开发。
 
-zq-django-util 是自强 Studio 开发的 Django 模板，用于快速搭建 Django+DRF 项目。其中包括：
+---
 
-- 使用 [zq-django-util](https://pypi.org/project/zq-django-util/) 工具搭建的基础框架
-- JWT 认证
-- OSS 存储、直传示例
-- 微信小程序登录示例（可选）
-- Sentry 监控（可选）
-- Celery 异步任务（可选）
-- git 提交规范与代码检查
-- Docker 配置与自动化部署
+## 🛠️ 本地开发上手
 
-## 使用说明
+### 1. 初始化环境（使用 uv）
 
-详见 [使用说明文档](docs/usage.md)
+```bash
+# 1. 创建 Python 3.12 虚拟环境并激活
+uv venv --python 3.12
+source .venv/bin/activate  # Windows: .venv\Scripts\activate
 
-## 开发
+# 2. 安装所有依赖
+uv pip install -r pyproject.toml -e ".[dev,test]"
+```
 
-使用 poetry 安装依赖，并进行项目修改
+### 2. 启动服务（零配置开箱即用）
+
+本地未配置外部环境变量时，项目默认自动使用 SQLite 与内存缓存，直接启动即可：
+
+```bash
+python manage.py migrate
+python manage.py runserver
+```
+
+若需定制本地环境变量（如连接本地 MySQL / Redis / Sentry）：
+
+```bash
+cp config/.env.example config/.env
+```
+
+### 3. 代码检查与测试
+
+```bash
+# 代码规范检查 (Ruff)
+ruff check server
+
+# 运行单元测试
+pytest
+```
+
+---
+
+## 📦 自动化部署 (zq-deploy)
+
+项目内置 `.github/workflows/cicd.yml`，推送至 `main` 分支时将自动调用组织中央部署流水线 (`zq-deploy`) 完成 Docker 构建与发布。
+生产环境的 RDS 数据库、Redis 连接串与密钥由部署平台统一挂载注入，代码仓库零敏感信息。

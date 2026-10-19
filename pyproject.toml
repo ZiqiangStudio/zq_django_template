@@ -1,99 +1,73 @@
-[tool.poetry]
+[project]
 name = "zq-django-template"
-version = "0.1.0"
-description = "自强 Studio Django 模板"
-authors = ["Nagico <yjr888@vip.qq.com>"]
-license = "MIT"
+version = "0.2.0"
+description = "自强 Studio Django 现代化后端模板"
+authors = [
+    { name = "Ziqiang Studio", email = "tech@ziqiang.net.cn" }
+]
 readme = "README.md"
-homepage = "https://github.com/Nagico/zq-django-template"
-documentation = "https://zq-django-template.readthedocs.io/en/latest/"
-keywords = ["django", "drf", "template", "cookiecutter"]
-packages = [
-  { include = "{{cookiecutter.project_name}}" },
-  { include = "cookiecutter.json" },
+requires-python = ">=3.12"
+dependencies = [
+    "django>=5.1",
+    "djangorestframework>=3.15.2",
+    "django-cors-headers>=4.6.0",
+    "drf-spectacular>=0.28.0",
+    "django-filter>=24.3",
+    "mysqlclient>=2.2.6",
+    "django-split-settings>=1.3.1",
+    "python-decouple>=3.8",
+    "loguru>=0.7.3",
+    "redis>=5.2.0",
+    "django-cache-url>=3.4.5",
+    "dj-database-url>=2.3.0",
+    "zq-django-util>=0.2.2",
+    "zq-auth-sdk>=0.1.0",
 ]
 
-[tool.poetry.dependencies]
-python = ">=3.8.1,<4.0"
-cookiecutter = "^2.1.1"
-flake8 = "^6.0.0"
-black = "^22.12.0"
-isort = "^5.11.4"
-flake8-pyproject = "^1.2.2"
-pre-commit = "^2.21.0"
-auto-changelog = "^0.6.0"
-mkdocs = "^1.4.2"
-mkdocstrings = {extras = ["python"], version = "^0.19.1"}
-
-[[tool.poetry.source]]
-name = "tsinghua"
-default = true
-url = "https://pypi.tuna.tsinghua.edu.cn/simple"
+[dependency-groups]
+dev = [
+    "pre-commit>=4.0.0",
+    "ruff>=0.9.0",
+    "django-extensions>=3.2.3",
+    "werkzeug>=3.1.3",
+    "django-debug-toolbar>=4.4.6",
+    "pytest>=8.3.0",
+    "pytest-cov>=6.0.0",
+    "pytest-django>=4.9.0",
+    "pytest-mock>=3.14.0",
+    "model-bakery>=1.20.0",
+    "pytest-xdist>=3.6.0",
+]
+test = [
+    "pytest>=8.3.0",
+    "pytest-cov>=6.0.0",
+    "pytest-django>=4.9.0",
+    "pytest-mock>=3.14.0",
+    "model-bakery>=1.20.0",
+    "pytest-xdist>=3.6.0",
+    "ruff>=0.9.0",
+]
 
 [build-system]
-requires = ["poetry-core"]
-build-backend = "poetry.core.masonry.api"
+requires = ["hatchling"]
+build-backend = "hatchling.build"
 
-[tool.black]
-line-length = 80
-include = '\.pyi?$'
-exclude = '''
-/(
-    \.git
-  | \.hg
-  | \.mypy_cache
-  | \.tox
-  | \.venv
-  | _build
-  | buck-out
-  | build
-  | dist
-  | migrations
-)/
-'''
+[tool.hatch.build.targets.wheel]
+packages = ["server"]
 
-[tool.isort]
-profile = "black"
-skip = ["migrations"]
-include_trailing_comma = true
-use_parentheses = true
-multi_line_output = 3
-line_length = 80
-
-# not using pytest-cov default, to support pycharm coverage
-[tool.pytest.ini_options]
-addopts = """
-    -s -v
-"""
-
-[tool.coverage.run]
-omit =[
-  '*/migrations/*',
-  '*/__version__.py',
-  '*/tests/*',
-  '*/types.py',
-  '*/tests.py',
-  '*/setup.py',
-  '*/setup.cfg',
-  '*/.tox/*',
-  '*/.venv/*',
+[tool.ruff]
+line-length = 88
+target-version = "py312"
+exclude = [
+    ".git",
+    ".venv",
+    "__pycache__",
+    "migrations",
 ]
 
-[tool.coverage.report]
-exclude_lines =[
-  'pragma: no cover',
-  'def __repr__',
-  'if TYPE_CHECKING',
-  'raise AssertionError',
-  'raise NotImplementedError',
-  'if 0:',
-  'if __name__ == .__main__.:',
-  'class .*\bProtocol\):',
-  '@(abc\.)?abstractmethod',
-]
+[tool.ruff.lint]
+select = ["E", "F", "W", "B", "C4"]
+ignore = ["E501", "B904"]
 
-[tool.flake8]
-ignore = ['E203', 'E266', 'E501', 'W503']
-max-line-length = 80
-max-complexity = 18
-select = ['B', 'C', 'E', 'F', 'W', 'T4']
+[tool.ruff.lint.isort]
+known-first-party = ["server"]
