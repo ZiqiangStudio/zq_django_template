@@ -30,13 +30,15 @@ jobs:
         run: uv python install 3.12
 
       - name: Install dependencies
-        run: uv pip install --system -r pyproject.toml pytest pytest-django pytest-mock model-bakery ruff
+        run: |
+          uv venv
+          uv pip install -r pyproject.toml pytest pytest-django pytest-mock model-bakery ruff
 
       - name: Run code linter
-        run: ruff check server tests
+        run: uv run ruff check server tests
 
       - name: Run tests
-        run: pytest
+        run: uv run pytest
 
   deploy:
     name: Deploy to Production
