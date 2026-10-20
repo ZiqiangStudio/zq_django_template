@@ -47,5 +47,5 @@ jobs:
     uses: ZiqiangStudio/zq-deploy/.github/workflows/reusable-container.yml@main
     secrets: inherit
     with:
+      domain: "" # 上线时填入分配给本服务的公网域名，多个用逗号隔开，例如 api.score.ziqiang.net.cn
       port: "8000"
-      domain: ${{ vars.DOMAIN }}
