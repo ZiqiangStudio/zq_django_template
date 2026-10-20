@@ -30,6 +30,12 @@ RUN sed -i 's/\r$//g' start.sh && chmod +x start.sh
 COPY ./manage.py manage.py
 COPY ./server/ server/
 
+# Create non-privileged user and transfer ownership
+RUN useradd -m -u 1000 -s /bin/bash appuser \
+    && chown -R appuser:appuser ${APP_HOME}
+
+USER appuser
+
 HEALTHCHECK --interval=30s --timeout=30s --retries=3 CMD curl -f http://localhost:8000/ || exit 1
 
 EXPOSE 8000
