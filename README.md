@@ -68,4 +68,6 @@ pytest
 ## 📦 自动化部署 (zq-deploy)
 
 项目内置 `.github/workflows/cicd.yml`，推送至 `main` 分支时将自动调用组织中央部署流水线 (`zq-deploy`) 完成 Docker 构建与发布。
-生产环境的 RDS 数据库、Redis 连接串与密钥由部署平台统一挂载注入，代码仓库零敏感信息。
+- **端口契约**：容器内部标准监听 `8000` 端口。
+- **域名绑定**：由项目负责人在 `.github/workflows/cicd.yml` 中的 `domain:` 字段直接填入，直观透明。
+- **生产配置**：生产环境的 RDS 数据库、Redis 连接串与密钥由部署平台统一挂载注入，代码仓库零敏感信息。
